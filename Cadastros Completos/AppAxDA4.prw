@@ -10,7 +10,7 @@
 /* AppAxDA4 - Browse de Recursos
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 WSRESTFUL AppAxDA4 DESCRIPTION ("Cadastro de Condutores - PALM")
-   WSDATA USERID     As String //Json Recebido no corpo da requiÁ„o
+   WSDATA USERID     As String //Json Recebido no corpo da requi√ß√£o
    WSDATA TOKEN      As String //String que vamos receber via URL
    WSDATA DEVICEID   As String //String que vamos receber via URL
 
@@ -47,7 +47,7 @@ WSMETHOD GET WSRECEIVE userID,token,DEVICEID WSSERVICE AppAxDA4
 
                   //u_Icone('incluir')
       _aCab   := {{'icons',{{u_Icone("incluir"),"/PALM/v1/AppAxDA4Add?OPER=LIMPAR",,"Incluir Condutor",.T.,.T.}}},;
-                  'CÛdigo','Nome','Celular','Tipo'}
+                  'C√≥digo','Nome','Celular','Tipo'}
 
       _aIconsBrw := {}
       AADD( _aIconsBrw , {'u_Icone("alterar")','"/PALM/v1/AppAxDA4Add?Oper=ALT&ID="+DA4_COD',,"Alterar condutor",.T.,.F.} )
@@ -76,16 +76,16 @@ WSMETHOD GET WSRECEIVE userID,token,DEVICEID WSSERVICE AppAxDA4
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 /* AppAxDA4Add - Edita Recurso
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
-WSRESTFUL AppAxDA4Add DESCRIPTION UnEscape("EdiÁ„o de Recurso - PALM")
-   WSDATA USERID As String //Json Recebido no corpo da requiÁ„o
+WSRESTFUL AppAxDA4Add DESCRIPTION UnEscape("Edi√ß√£o de Recurso - PALM")
+   WSDATA USERID As String //Json Recebido no corpo da requi√ß√£o
    WSDATA TOKEN  As String //String que vamos receber via URL
    WSDATA OPER   As String //String que vamos receber via URL
    WSDATA ID     As String //String que vamos receber via URL
    WSDATA APIRET As String //String que vamos receber via URL
    WSDATA DEVICEID As String
 
-   WSMETHOD GET DESCRIPTION Unescape("EdiÁ„o de Recurso") WSSYNTAX "/PALM/v1/AppAxDA4Add" //Disponibilizamos um mÈtodo do tipo GET
-   WSMETHOD POST DESCRIPTION Unescape("EdiÁ„o de Recurso") WSSYNTAX "/PALM/v1/AppAxDA4Add" //Disponibilizamos um mÈtodo do tipo GET
+   WSMETHOD GET DESCRIPTION Unescape("Edi√ß√£o de Recurso") WSSYNTAX "/PALM/v1/AppAxDA4Add" //Disponibilizamos um m√©todo do tipo GET
+   WSMETHOD POST DESCRIPTION Unescape("Edi√ß√£o de Recurso") WSSYNTAX "/PALM/v1/AppAxDA4Add" //Disponibilizamos um m√©todo do tipo GET
    END WSRESTFUL
 
 WSMETHOD GET WSRECEIVE userID,token,OPER,ID,DEVICEID WSSERVICE AppAxDA4Add
@@ -125,6 +125,7 @@ WSMETHOD GET WSRECEIVE userID,token,OPER,ID,DEVICEID WSSERVICE AppAxDA4Add
          _cCod := Soma1(_DA4->PROXIMO)
          _DA4->(DbCloseArea())      
          _lE := .T.
+         // Abaixo recuperamos as vari√°veis de mem√≥ria
          _cNome   := AllTrim(u_RetVarTmp('DA4_NOME'))
          _cNReduz := AllTrim(u_RetVarTmp('DA4_NREDUZ'))
          _cTipo   := AllTrim(u_RetVarTmp('DA4_TIPMOT'))
@@ -204,38 +205,38 @@ WSMETHOD GET WSRECEIVE userID,token,OPER,ID,DEVICEID WSSERVICE AppAxDA4Add
       _cF3CNH += "&QUERY="    + Escape("Select Top 100 CC2_CODMUN, CC2_EST, CC2_MUN From " + RetSqlName('CC2') + " Where D_E_L_E_T_ = '' And CC2_EST = '"+_cCNHEST+"'")
       _cF3CNH += "&ORDEM="    + Escape("CC2_MUN")
 
-      _aTipoMot := {{'1','Funcion·rio'},{'2','Terceiro'}}
-      //_aTipoMot := {{'1','Funcion·rio'},{'3','Terceiro'},{'2','Motorista'}}
+      _aTipoMot := {{'1','Funcion√°rio'},{'2','Terceiro'}}
+      //_aTipoMot := {{'1','Funcion√°rio'},{'3','Terceiro'},{'2','Motorista'}}
       aAdd(_aCampos, {'label',   'lCondutor', 'Dados do Condutor',16,.T.,,,,,,,,,,,,_cCor})
-      aAdd(_aCampos, {'textfield',      'DA4_COD' ,    'CÛdigo' ,           TAMSX3("DA4_COD")[1],    If(_lWeb,08, 20), .F., .T.,  _cCod,      'X',    ,  "", {}})
+      aAdd(_aCampos, {'textfield',      'DA4_COD' ,    'C√≥digo' ,           TAMSX3("DA4_COD")[1],    If(_lWeb,08, 20), .F., .T.,  _cCod,      'X',    ,  "", {}})
       aAdd(_aCampos, {'radio',          'DA4_TIPMOT',  'Tipo do Condutor',  TAMSX3("DA4_TIPMOT")[1], If(_lWeb,30,.T.), _lE, .F.,  _cTipo,       'X',  '',  '', _aTipoMot,,,,,,,.T.})
       IF _cTipo == '1'
-         aAdd(_aCampos, {'search',      'DA4_MAT',     'MatrÌcula Funcion·rio',                  06, If(_lWeb,30,.T.), _lE, .T.,  _cMat     ,   'X',   _cF3SRA, "", {},,,,,,,.T.})
+         aAdd(_aCampos, {'search',      'DA4_MAT',     'Matr√≠cula Funcion√°rio',                  06, If(_lWeb,30,.T.), _lE, .T.,  _cMat     ,   'X',   _cF3SRA, "", {},,,,,,,.T.})
       EndIf 
       aAdd(_aCampos, {'textfield',      'DA4_NOME',    'Nome do Condutor',  TAMSX3("DA4_NOME")[1],   If(_lWeb,31, .T.), _lE, .T.,  _cNome,       'X',    ,  "", {}})
       aAdd(_aCampos, {'textfield',      'DA4_NREDUZ',  'Nome reduzido',     TAMSX3("DA4_NREDUZ")[1], If(_lWeb,30,.T.), _lE, .T.,  _cNReduz,     'X',    ,  "", {}})
-      aAdd(_aCampos, {'textfield',      'DA4_END',     'EndereÁo',          TAMSX3("DA4_END")[1],    If(_lWeb,54,.T.), _lE, .T.,  _cEnd,        'X',    ,  "", {}})
+      aAdd(_aCampos, {'textfield',      'DA4_END',     'Endere√ßo',          TAMSX3("DA4_END")[1],    If(_lWeb,54,.T.), _lE, .T.,  _cEnd,        'X',    ,  "", {}})
       aAdd(_aCampos, {'textfield',      'DA4_BAIRRO',  'Bairro',            TAMSX3("DA4_BAIRRO")[1], If(_lWeb,25,.F.), _lE, .F.,  _cBairro,     'X',    ,  "", {}})
       aAdd(_aCampos, {'search',         'DA4_EST',     'UF',                TAMSX3("DA4_EST")[1],    If(_lWeb,20,.F.), _lE, .F.,  _cEST,        'X',    _cF3T12,  '', {},,,,,,,.T.})
-      aAdd(_aCampos, {'search',         'DA4_MUN',     'MunicÌpio',         TAMSX3("DA4_MUN")[1],    If(_lWeb,22,.F.), _lE, .F.,  _cMun,        'X',    _cF3CC2  , '' , {}})
+      aAdd(_aCampos, {'search',         'DA4_MUN',     'Munic√≠pio',         TAMSX3("DA4_MUN")[1],    If(_lWeb,22,.F.), _lE, .F.,  _cMun,        'X',    _cF3CC2  , '' , {}})
       aAdd(_aCampos, {'textfield',      'DA4_CEP',     'CEP',               TAMSX3("DA4_CEP")[1],    If(_lWeb,10,.F.), _lE, .F.,  _cCEP,        'X',    ,  "", {}})
       aAdd(_aCampos, {'textfield',      'DA4_CGC',     'CPF/CNPJ',          TAMSX3("DA4_CGC")[1],    If(_lWeb,12,.F.), _lE, .T.,  _cCGC,        'X',    ,  "", {}})
       aAdd(_aCampos, {'textfield',      'DA4_TEL',     'Celular',           TAMSX3("DA4_TEL")[1],    If(_lWeb,12,.F.), _lE, .F.,  _cFone,       'X',    ,  "", {}})
       aAdd(_aCampos, {'textfield',      'DA4_RG',      'RG',                TAMSX3("DA4_RG")[1],     If(_lWeb,10,.F.), _lE, .T.,  _cRG,         'X',    ,  "", {}})
-      aAdd(_aCampos, {'textfield',      'DA4_RGORG',   'Org„o Emissor',     TAMSX3("DA4_RGORG")[1],  If(_lWeb,08,.F.), _lE, .T.,  _cRGOrgao,    'X',    ,  "", {}})
+      aAdd(_aCampos, {'textfield',      'DA4_RGORG',   'Org√£o Emissor',     TAMSX3("DA4_RGORG")[1],  If(_lWeb,08,.F.), _lE, .T.,  _cRGOrgao,    'X',    ,  "", {}})
       aAdd(_aCampos, {'search',         'DA4_RGEST',   'UF',                TAMSX3("DA4_RGEST")[1],  If(_lWeb,15,.F.), _lE, .T.,  _cRGUF,       'X',   _cF3T12 ,  '', {}})
-      aAdd(_aCampos, {'date',           'DA4_RGDT',    'Emiss„o',           TAMSX3("DA4_RGDT")[1],   If(_lWeb,09,.F.), _lE, .T.,  _dRGEmis,     'X',    ,  "", {}})
+      aAdd(_aCampos, {'date',           'DA4_RGDT',    'Emiss√£o',           TAMSX3("DA4_RGDT")[1],   If(_lWeb,09,.F.), _lE, .T.,  _dRGEmis,     'X',    ,  "", {}})
       aAdd(_aCampos, {'divider'})
       aAdd(_aCampos, {'label',   'lCNH', 'Dados do CNH',16,.T.,,,,,,,,,,,,_cCor})
       aAdd(_aCampos, {'textfield',      'DA4_NUMCNH',  'CNH',               TAMSX3("DA4_NUMCNH")[1], If(_lWeb,10,.F.), _lE, .T.,  _cCNHNum,     'X',    ,  "", {}})
-      aAdd(_aCampos, {'date',           'DA4_DTECNH',  'ExpediÁ„o',         TAMSX3("DA4_DTECNH")[1], If(_lWeb,08,.F.), _lE, .T.,  _dCNHDt,      'X',    ,  "", {}})
+      aAdd(_aCampos, {'date',           'DA4_DTECNH',  'Expedi√ß√£o',         TAMSX3("DA4_DTECNH")[1], If(_lWeb,08,.F.), _lE, .T.,  _dCNHDt,      'X',    ,  "", {}})
       aAdd(_aCampos, {'date',           'DA4_DTVCNH',  'Validade',          TAMSX3("DA4_DTVCNH")[1], If(_lWeb,08,.F.), .T., .T.,  _dCNHVen,     'X',    ,  "", {}})
       aAdd(_aCampos, {'search',         'DA4_ESTCNH',  'UF',                TAMSX3("DA4_ESTCNH")[1], If(_lWeb,20,.F.), _lE, .T.,  _cCNHEST,     'X',    _cF3T12,  "", {},,,,,,,.T.})
-      aAdd(_aCampos, {'search',         'DA4_MUNCNH',  'MunicÌpio',         TAMSX3("DA4_MUNCNH")[1], If(_lWeb,20,.F.), _lE, .T.,  _cCNHMun,     'X',    _cF3CNH,  "", {}})
+      aAdd(_aCampos, {'search',         'DA4_MUNCNH',  'Munic√≠pio',         TAMSX3("DA4_MUNCNH")[1], If(_lWeb,20,.F.), _lE, .T.,  _cCNHMun,     'X',    _cF3CNH,  "", {}})
       aAdd(_aCampos, {'radio',          'DA4_CATCNH',  'Categoria',                              01, If(_lWeb,20,.F.), .T., .T.,  _cCNHCat,     'X',    ,  "", {{'A','A'},{'B','B'},{'C','C'},{'D','D'},{'E','E'}}})
       aAdd(_aCampos, {'attachment_image',  'ANEXOCNH',    'Anexar Foto CNH',                    80, If(_lWeb,.F.,.T.), _lE,.T.,  _cCNHAnx,     'X',       '',  "",{}})
       
-      aAdd(_aCampos, {'textfield',   'APIRET',  'SolicitaÁ„o',                    09,      .F., .F., .F.,  _cApiRet,      'X',  '',  '', {},,,,,,,,,,.F.})  //,,,,,,,.T.})
+      aAdd(_aCampos, {'textfield',   'APIRET',  'Solicita√ß√£o',                    09,      .F., .F., .F.,  _cApiRet,      'X',  '',  '', {},,,,,,,,,,.F.})  //,,,,,,,.T.})
       _cJson := u_JsonEdit(If(_cOper=='INC','Incluir','Edita')+' Condutor','/PALM/v1/AppAxDA4Gat', "/PALM/v1/AppAxDA4Add?OPER="+_cOper+'&ID='+_cID, _aCampos,,'Confirma atualizar os dados do condutor?',,,,,,,.T.)
       MemoWrite('Edit.json', _cJson)
       ::SetResponse(EncodeUTF8(_cJSON))
@@ -280,7 +281,7 @@ WSMETHOD POST WSRECEIVE userID,token,OPER,ID WSSERVICE AppAxDA4Add
          DA4->(DbDelete())
          DA4->(MsUnlock())
       EndIf
-      _cJson := u_JsonMsg('Exclus„o OK!',"Exclus„o de motorista realizada com sucesso!", "success", .T.,'1500',,"/PALM/v1/AppAxDA4")
+      _cJson := u_JsonMsg('Exclus√£o OK!',"Exclus√£o de motorista realizada com sucesso!", "success", .T.,'1500',,"/PALM/v1/AppAxDA4")
       ::setStatus(200)
       ::setResponse(EncodeUTF8(_cJson))
       Return .T.      
@@ -288,7 +289,7 @@ WSMETHOD POST WSRECEIVE userID,token,OPER,ID WSSERVICE AppAxDA4Add
 
    _cJson := ''
    If CtoD(oParseJson:DA4_DTVCNH) < dDataBase
-      _cJson := u_JsonMsg('Erro de CNH!',  "A CNH est· vencida!",   "alert", .F.,'3000',,)
+      _cJson := u_JsonMsg('Erro de CNH!',  "A CNH est√° vencida!",   "alert", .F.,'3000',,)
    EndIf
    If !Empty(_cJson)
       ::setStatus(200)
@@ -336,15 +337,17 @@ WSMETHOD POST WSRECEIVE userID,token,OPER,ID WSSERVICE AppAxDA4Add
    Replace DA4->DA4_MUNCNH With oParseJson:DA4_MUNCNH
     
    DA4->(MsUnlock())
+   
+   // Limpa as vari√°veis de mem√≥ria
    u_VarTemp()
 
    If _cOper == 'ALT'
-      _cJson := u_JsonMsg('AlteraÁ„o OK!', "Condutor atualizado com sucesso!", "success", .T.,'1000',,"/PALM/v1/AppAxDA4")
+      _cJson := u_JsonMsg('Altera√ß√£o OK!', "Condutor atualizado com sucesso!", "success", .T.,'1000',,"/PALM/v1/AppAxDA4")
    Else   
       If 'AXDA4' $ Upper (oParseJson:APIRET)
-         _cJson := u_JsonMsg('Inclus„o OK!',  "Condutor incluÌdo com sucesso!",   "success", .T.,'1000',,"/PALM/v1/AppAxDA4")
+         _cJson := u_JsonMsg('Inclus√£o OK!',  "Condutor inclu√≠do com sucesso!",   "success", .T.,'1000',,"/PALM/v1/AppAxDA4")
       Else
-         _cJson := u_JsonMsg('Inclus„o OK!',  "Condutor incluÌdo com sucesso!",   "success", .T.,'1000',,"")
+         _cJson := u_JsonMsg('Inclus√£o OK!',  "Condutor inclu√≠do com sucesso!",   "success", .T.,'1000',,"")
       EndIf   
    EndIf   
    ::setStatus(200)
@@ -356,11 +359,11 @@ WSMETHOD POST WSRECEIVE userID,token,OPER,ID WSSERVICE AppAxDA4Add
 /* Gatilho 
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 WSRESTFUL AppAxDA4Gat DESCRIPTION "Gatilho do Cadastro de Condutor - PALM"
-   WSDATA USERID As String //Json Recebido no corpo da requiÁ„o
+   WSDATA USERID As String //Json Recebido no corpo da requi√ß√£o
    WSDATA TOKEN  As String //String que vamos receber via URL
    WSDATA GRUPO  As String //String que vamos receber via URL
 
-   WSMETHOD POST DESCRIPTION "Gatilho do Cadastro de Operador" WSSYNTAX "/PALM/v1/AppAxDA4Gat" //Disponibilizamos um mÈtodo do tipo GET
+   WSMETHOD POST DESCRIPTION "Gatilho do Cadastro de Operador" WSSYNTAX "/PALM/v1/AppAxDA4Gat" //Disponibilizamos um m√©todo do tipo GET
    END WSRESTFUL
 
 WSMETHOD POST WSRECEIVE userID,token,GRUPO WSSERVICE AppAxDA4Gat
@@ -395,6 +398,8 @@ WSMETHOD POST WSRECEIVE userID,token,GRUPO WSSERVICE AppAxDA4Gat
          _cJson := u_JsonRefresh("/PALM/v1/AppAxDA4Add?OPER=INC&APIRET="+oParseJson:valores:APIRET)
       Endif
       If oParseJSON:TRIGGER $ 'DA4_MAT' 
+
+         // Registramos as vari√°veis de mem√≥ria para retornar com o Refresh
          u_VarTemp(oParseJson)
          SRA->(DbSetOrder(1))
          If SRA->(DbSeek(xFilial('SRA')+oParseJson:valores:DA4_MAT))
@@ -423,7 +428,7 @@ WSMETHOD POST WSRECEIVE userID,token,GRUPO WSSERVICE AppAxDA4Gat
          EndIf   
       ElseIf oParseJSON:TRIGGER $ 'DA4_DTVCNH'
          If CtoD(oParseJson:valores:DA4_DTVCNH) < dDataBase
-            _cJson := u_JsonMsg('Erro de CNH!',  "A CNH est· vencida!",   "alert", .F.,'3000',,)
+            _cJson := u_JsonMsg('Erro de CNH!',  "A CNH est√° vencida!",   "alert", .F.,'3000',,)
          EndIf
       Endif
 
